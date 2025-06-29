@@ -204,7 +204,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👨‍💻 Autor
 
-**Gustavo** - [GitHub](https://github.com/guuszz)
+**Gustavo** - @gustavosaraiva2504@gmail.com -  [GitHub](https://github.com/guuszz)
 
 ## 🙏 Agradecimentos
 
