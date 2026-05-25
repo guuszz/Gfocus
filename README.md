@@ -10,6 +10,10 @@
   <img src="https://img.shields.io/badge/Vite-5.4.2-purple?style=for-the-badge&logo=vite" alt="Vite" />
   <img src="https://img.shields.io/badge/Tailwind-3.4.1-cyan?style=for-the-badge&logo=tailwindcss" alt="Tailwind CSS" />
 </div>
+<p align="center">
+  <img src="docs/screenshots/landing.png" alt="Gfocus landing page" width="800"/>
+</p>
+
 
 <br>
 
