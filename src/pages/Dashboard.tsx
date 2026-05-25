@@ -3,6 +3,7 @@ import { Task } from '../types';
 import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Plus } from 'lucide-react';
+import { Toaster, toast } from 'sonner';
 import { useLanguage } from '../contexts/LanguageContext';
 import TaskCard from '../components/TaskCard';
 import TaskForm from '../components/TaskForm';
@@ -53,6 +54,15 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      <Toaster
+        position="bottom-right"
+        theme="dark"
+        richColors
+        closeButton
+        toastOptions={{
+          style: { fontFamily: 'system-ui, -apple-system, sans-serif' },
+        }}
+      />
       <Sidebar
         activeFilter={activeFilter}
         onFilterChange={setActiveFilter}
@@ -82,8 +92,25 @@ export default function Dashboard() {
                     setEditingTask(task);
                     setIsFormOpen(true);
                   }}
-                  onStatusChange={(id, status) => updateTask(id, { status })}
-                  onDelete={deleteTask}
+                  onStatusChange={(id, status) => {
+                    updateTask(id, { status });
+                    if (status === 'completed') {
+                      toast.success('Tarefa concluída!', {
+                        description: 'Bom trabalho ✨',
+                      });
+                    }
+                  }}
+                  onDelete={(id) => {
+                    const task = tasks.find((t) => t.id === id);
+                    deleteTask(id);
+                    toast('Tarefa removida', {
+                      description: task?.title,
+                      action: {
+                        label: 'Desfazer',
+                        onClick: () => task && addTask(task),
+                      },
+                    });
+                  }}
                 />
               ))}
             </div>
@@ -99,8 +126,10 @@ export default function Dashboard() {
           onSubmit={(taskData) => {
             if (editingTask) {
               updateTask(editingTask.id, taskData);
+              toast.success('Tarefa atualizada');
             } else {
               addTask(taskData);
+              toast.success(`Tarefa criada: ${taskData.title}`);
             }
             setEditingTask(null);
           }}
