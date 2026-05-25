@@ -90,24 +90,22 @@ export default function Dashboard() {
           </SortableContext>
         </DndContext>
 
-        {isFormOpen && (
-          <TaskForm
-            onSubmit={(taskData) => {
-              if (editingTask) {
-                updateTask(editingTask.id, taskData);
-              } else {
-                addTask(taskData);
-              }
-              setIsFormOpen(false);
-              setEditingTask(null);
-            }}
-            onClose={() => {
-              setIsFormOpen(false);
-              setEditingTask(null);
-            }}
-            initialData={editingTask || undefined}
-          />
-        )}
+        <TaskForm
+          open={isFormOpen}
+          onOpenChange={(open) => {
+            setIsFormOpen(open);
+            if (!open) setEditingTask(null);
+          }}
+          onSubmit={(taskData) => {
+            if (editingTask) {
+              updateTask(editingTask.id, taskData);
+            } else {
+              addTask(taskData);
+            }
+            setEditingTask(null);
+          }}
+          initialData={editingTask || undefined}
+        />
       </div>
     </div>
   );

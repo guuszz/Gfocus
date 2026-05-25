@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { Task, Priority } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { X } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from './ui/dialog';
 
 interface Props {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   onSubmit: (task: Omit<Task, 'id' | 'createdAt' | 'aiEstimate'>) => void;
-  onClose: () => void;
   initialData?: Task;
 }
 
-export default function TaskForm({ onSubmit, onClose, initialData }: Props) {
+export default function TaskForm({ open, onOpenChange, onSubmit, initialData }: Props) {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
@@ -26,57 +33,61 @@ export default function TaskForm({ onSubmit, onClose, initialData }: Props) {
       ...formData,
       dueDate: new Date(formData.dueDate),
     });
-    onClose();
+    onOpenChange(false);
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white"
-        >
-          <X size={24} />
-        </button>
-        
-        <h2 className="text-2xl font-bold mb-6">
-          {initialData ? t.tasks.edit : t.tasks.new}
-        </h2>
-        
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{initialData ? t.tasks.edit : t.tasks.new}</DialogTitle>
+          <DialogDescription>
+            {initialData
+              ? 'Atualize os detalhes da tarefa.'
+              : 'Adicione uma nova tarefa à sua lista.'}
+          </DialogDescription>
+        </DialogHeader>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label htmlFor="task-title" className="block text-sm font-medium text-gray-300 mb-1.5">
               {t.form.title}
             </label>
             <input
+              id="task-title"
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-colors"
+              placeholder="Ex: Estudar React hooks"
               required
+              autoFocus
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label htmlFor="task-desc" className="block text-sm font-medium text-gray-300 mb-1.5">
               {t.form.description}
             </label>
             <textarea
+              id="task-desc"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white h-24"
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-colors h-20 resize-none"
+              placeholder="Detalhes opcionais"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label htmlFor="task-priority" className="block text-sm font-medium text-gray-300 mb-1.5">
                 {t.form.priority}
               </label>
               <select
+                id="task-priority"
                 value={formData.priority}
                 onChange={(e) => setFormData({ ...formData, priority: e.target.value as Priority })}
-                className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+                className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-colors"
               >
                 <option value="low">{t.priorities.low}</option>
                 <option value="medium">{t.priorities.medium}</option>
@@ -86,13 +97,14 @@ export default function TaskForm({ onSubmit, onClose, initialData }: Props) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+              <label htmlFor="task-category" className="block text-sm font-medium text-gray-300 mb-1.5">
                 {t.form.category}
               </label>
               <select
+                id="task-category"
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+                className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-colors"
               >
                 <option value="Work">{t.categories.work}</option>
                 <option value="Personal">{t.categories.personal}</option>
@@ -103,26 +115,36 @@ export default function TaskForm({ onSubmit, onClose, initialData }: Props) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label htmlFor="task-date" className="block text-sm font-medium text-gray-300 mb-1.5">
               {t.form.dueDate}
             </label>
             <input
+              id="task-date"
               type="date"
               value={formData.dueDate}
               onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-              className="w-full bg-gray-700 rounded-lg px-4 py-2 text-white"
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-colors"
               required
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-gray-100 text-gray-900 py-2 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
-          >
-            {initialData ? t.tasks.update : t.tasks.create}
-          </button>
+          <div className="flex justify-end gap-2 pt-2">
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              className="px-5 py-2 rounded-lg text-sm font-semibold bg-gray-100 text-gray-900 hover:bg-white transition-colors"
+            >
+              {initialData ? t.tasks.update : t.tasks.create}
+            </button>
+          </div>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
