@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Task, Priority, Status } from '../types';
+import { Task, Priority} from '../types';
 import { persist } from 'zustand/middleware';
 
 interface TaskState {

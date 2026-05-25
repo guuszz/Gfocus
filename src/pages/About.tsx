@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, Zap, Users, Award, Code, Eye } from 'lucide-react';
+import { Target, Zap, Users, Code, Eye } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import MainLayout from '../components/MainLayout';
 

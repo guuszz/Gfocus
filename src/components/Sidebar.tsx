@@ -9,7 +9,7 @@ interface Props {
   tasks: Task[];
 }
 
-export default function Sidebar({ activeFilter, onFilterChange, tasks }: Props) {
+export default function Sidebar({ activeFilter, onFilterChange }: Props) {
   const { t } = useLanguage();
 
   const filters = [

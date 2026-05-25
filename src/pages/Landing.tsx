@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import MainLayout from '../components/MainLayout';
-import { CheckCircle, Clock, Target, Star, Users, ArrowRight } from 'lucide-react';
+import { CheckCircle, Clock, Target, ArrowRight } from 'lucide-react';
 import Testimonials from '../components/Testimonials';
 import Stats from '../components/Stats';
 
