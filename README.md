@@ -1,6 +1,12 @@
 # 🎯 GFOCUS - Elimine o Caos Mental e Conquiste 3x Mais Resultados
 
 <p align="center">
+  <a href="https://gfocus-zeta.vercel.app">
+    <img src="screenshot.png" alt="Interface do Gfocus mostrando lista de tarefas e timer Pomodoro" width="100%"/>
+  </a>
+</p>
+
+<p align="center">
   <a href="https://github.com/guuszz/Gfocus/actions/workflows/ci.yml"><img src="https://github.com/guuszz/Gfocus/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
 </p>
 <p align="center">
