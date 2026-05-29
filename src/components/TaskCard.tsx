@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { Clock, AlertTriangle, CheckCircle, Edit2, Trash2 } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { useTranslation } from '../hooks/useTranslation';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface Props {
   task: Task;
@@ -21,7 +21,7 @@ const priorityColors = {
 };
 
 export default function TaskCard({ task, onEdit, onStatusChange, onDelete }: Props) {
-  const { t } = useTranslation();
+  const { t } = useLanguage();
   const {
     attributes,
     listeners,
